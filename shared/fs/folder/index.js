@@ -16,6 +16,7 @@ import flags from '../../util/feature-flags'
 import OfflineFolder from './offline'
 
 type Props = {|
+  mainBannerType: Types.MainBannerType,
   onAttach?: ?(paths: Array<string>) => void,
   path: Types.Path,
   routePath: I.List<string>,
@@ -32,7 +33,7 @@ const WithContent = (props: Props) => (
         path={props.path}
         routePath={props.routePath}
         headerRows={[
-          ...mainBannerAsRows(),
+          ...mainBannerAsRows(props.mainBannerType),
           ...resetBannerAsRows(props.path, props.resetBannerType),
           // only show sfmi banner at /keybase
           ...(Types.getPathLevel(props.path) === 1

@@ -1151,6 +1151,18 @@ export const makeActionsForShowSendAttachmentToChat = (
   ),
 ]
 
+export const getMainBannerType = (
+  kbfsDaemonStatus: Types.KbfsDaemonStatus,
+  overallSyncStatus: any
+): Types.MainBannerType =>
+  kbfsDaemonStatus.online
+    ? overallSyncStatus === null
+      ? 'none'
+      : 'out-of-space'
+    : flags.kbfsOfflineMode
+    ? 'offline'
+    : 'none'
+
 export const splitFileNameAndExtension = (fileName: string) =>
   ((str, idx) => [str.slice(0, idx), str.slice(idx)])(fileName, fileName.lastIndexOf('.'))
 

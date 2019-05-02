@@ -1,8 +1,7 @@
 // @flow
 import * as React from 'react'
 import * as Kb from '../../../common-adapters'
-
-type BannerType = 'out-of-space' | 'offline' | 'none'
+import * as Types from '../../../constants/types/fs'
 
 /*
  * This banner is used as part of a List2 in fs/row/rows.js, so it's important
@@ -11,12 +10,13 @@ type BannerType = 'out-of-space' | 'offline' | 'none'
  * changes.
  *
  */
-// TODO: make this height function with all three varieties of banner
-export const height = 56
+export const getHeight = (bannerType: Types.MainBannerType): number =>
+  bannerType === 'out-of-space' ? 56 : bannerType === 'offline' ? 34 : 0
+// TODO: real number for offline
 
 type Props = {
   onRetry: () => void,
-  bannerType: BannerType,
+  bannerType: Types.MainBannerType,
 }
 
 const Banner = (props: Props) =>

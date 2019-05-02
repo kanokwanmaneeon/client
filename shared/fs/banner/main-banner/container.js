@@ -1,25 +1,24 @@
 // @flow
 import * as React from 'react'
-import Banner, {height} from './index'
+import Banner, {getHeight} from './index'
 import * as FsGen from '../../../actions/fs-gen'
 import {isMobile, namedConnect} from '../../../util/container'
 import * as RowTypes from '../../row/types'
-import flags from '../../../util/feature-flags'
+import * as Types from '../../../constants/types/fs'
 
-type OwnProps = {||}
+type OwnProps = {|
+  bannerType: Types.MainBannerType,
+|}
 
-const mapStateToProps = state => ({
-  _offline: flags.kbfsOfflineMode && !state.fs.kbfsDaemonStatus.online,
-  _outOfSpace: false,
-})
+const mapStateToProps = state => ({})
 
 const mapDispatchToProps = dispatch => ({
-  // TODO: set this to a "retry sync" action
-  onRetry: () => dispatch(FsGen.createDriverEnable({})),
+  // TODO: do we need a real path?
+  onRetry: () => dispatch(FsGen.createLoadPathMetadata({path: Types.stringToPath('/keybase/')})),
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  bannerType: stateProps._offline ? 'offline' : stateProps._outOfSpace ? 'out-of-space' : 'none',
+  bannerType: ownProps.bannerType,
   onRetry: dispatchProps.onRetry,
 })
 
@@ -33,12 +32,12 @@ const ConnectedBanner = namedConnect<OwnProps, _, _, _, _>(
 export default ConnectedBanner
 
 export const asRows = !isMobile
-  ? (): Array<RowTypes.HeaderRowItem> => []
-  : (): Array<RowTypes.HeaderRowItem> => [
+  ? (bannerType: Types.MainBannerType): Array<RowTypes.HeaderRowItem> => []
+  : (bannerType: Types.MainBannerType): Array<RowTypes.HeaderRowItem> => [
       {
-        height, // TODO: get height correctly
+        height: getHeight(bannerType),
         key: 'main-banner',
-        node: <ConnectedBanner />,
+        node: <ConnectedBanner bannerType={bannerType} />,
         rowType: 'header',
       },
     ]

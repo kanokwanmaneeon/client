@@ -107,5 +107,5 @@ export default () => {
         openSecurityPrefs={Sb.action('openSecurityPrefs')}
       />
     ))
-    .add('Out of space banner', () => <MainBanner />)
+    .add('Out of space banner', () => <MainBanner bannerType="out-of-space" />)
 }

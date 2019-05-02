@@ -13,7 +13,6 @@ import Loading from './common/loading'
 import KbfsDaemonNotRunning from './common/kbfs-daemon-not-running'
 import LoadPathMetadataWhenNeeded from './common/load-path-metadata-when-needed'
 import {Actions, DesktopBanner, MobileHeader, mobileHeaderHeight, Title} from './nav-header'
-import MainBanner from './banner/main-banner/container'
 import flags from '../util/feature-flags'
 
 const mapStateToProps = state => ({
