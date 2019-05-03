@@ -2097,17 +2097,20 @@ func UpgradeTLFIDToImpteam(ctx context.Context, g *libkb.GlobalContext, tlfName 
 }
 
 func TeamInviteTypeFromString(mctx libkb.MetaContext, inviteTypeStr string) (keybase1.TeamInviteType, error) {
-	// xxx todo catch paramproof services
 	switch inviteTypeStr {
 	case "keybase":
 		return keybase1.NewTeamInviteTypeDefault(keybase1.TeamInviteCategory_KEYBASE), nil
 	case "email":
 		return keybase1.NewTeamInviteTypeDefault(keybase1.TeamInviteCategory_EMAIL), nil
-	case "twitter", "github", "facebook", "reddit", "hackernews", "pgp", "http", "https", "dns":
-		return keybase1.NewTeamInviteTypeWithSbs(keybase1.TeamInviteSocialNetwork(inviteTypeStr)), nil
 	case "seitan_invite_token":
 		return keybase1.NewTeamInviteTypeDefault(keybase1.TeamInviteCategory_SEITAN), nil
+	case "twitter", "github", "facebook", "reddit", "hackernews", "pgp", "http", "https", "dns":
+		return keybase1.NewTeamInviteTypeWithSbs(keybase1.TeamInviteSocialNetwork(inviteTypeStr)), nil
 	default:
+		if mctx.G().GetProofServices().GetServiceType(inviteTypeStr) != nil {
+			return keybase1.NewTeamInviteTypeWithSbs(keybase1.TeamInviteSocialNetwork(inviteTypeStr)), nil
+		}
+
 		isDev := mctx.G().Env.GetRunMode() == libkb.DevelRunMode
 		if isDev && inviteTypeStr == "rooter" {
 			return keybase1.NewTeamInviteTypeWithSbs(keybase1.TeamInviteSocialNetwork(inviteTypeStr)), nil
@@ -2115,6 +2118,7 @@ func TeamInviteTypeFromString(mctx libkb.MetaContext, inviteTypeStr string) (key
 		if isDev && inviteTypeStr == "phone" {
 			return keybase1.NewTeamInviteTypeDefault(keybase1.TeamInviteCategory_PHONE), nil
 		}
+
 		// Don't want to break existing clients if we see an unknown invite type.
 		return keybase1.NewTeamInviteTypeWithUnknown(inviteTypeStr), nil
 	}
