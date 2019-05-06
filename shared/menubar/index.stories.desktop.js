@@ -56,6 +56,18 @@ const providers = Storybook.createPropProviderWithCommon({
     convRows: [],
     onViewAll: () => {},
   }),
+  FilenameText: (o: any) => {
+    const [fileNameWithoutExtension, fileExtension] = Constants.splitFileNameAndExtension(
+      o.path ? Types.getPathName(o.path) : o.filename || ''
+    )
+    return {
+      fileExtension,
+      fileNameWithoutExtension,
+      selectable: o.selectable,
+      style: o.style,
+      type: o.type,
+    }
+  },
   FilesPreview: () => ({
     loadTlfUpdates: () => Storybook.action('loadTlfUpdates'),
     userTlfUpdates: [],
@@ -117,32 +129,24 @@ const load = () => {
       <Kb.Box2 direction="vertical">
         <FileUpdate
           path={Types.stringToPath('/keybase/team/kbkbfstest/foo')}
-          targetExtension=""
-          targetNameWithoutExtension="foo"
           tlfType="private"
           onClick={Storybook.action('onClick')}
           uploading={false}
         />
         <FileUpdate
           path={Types.stringToPath('/keybase/team/kbkbfstest/bar')}
-          targetExtension=""
-          targetNameWithoutExtension="bar"
           tlfType="private"
           onClick={Storybook.action('onClick')}
           uploading={true}
         />
         <FileUpdate
           path={Types.stringToPath('/keybase/team/kbkbfstest/cow')}
-          targetExtension=""
-          targetNameWithoutExtension="cow"
           tlfType="private"
           onClick={Storybook.action('onClick')}
           uploading={true}
         />
         <FileUpdate
           path={Types.stringToPath('/keybase/team/kbkbfstest/poo')}
-          targetExtension=""
-          targetNameWithoutExtension="poo"
           tlfType="private"
           onClick={Storybook.action('onClick')}
           uploading={false}
@@ -151,8 +155,6 @@ const load = () => {
           path={Types.stringToPath(
             '/keybase/team/kbkbfstest/poo-long-name-long-name-long-name long-name-long-name-long-name-long-name long-name-long-name-long-name-long-name-long-name-long-name-long-name-long-name'
           )}
-          targetExtension=""
-          targetNameWithoutExtension="poo-long-name-long-name-long-name long-name-long-name-long-name-long-name long-name-long-name-long-name-long-name-long-name-long-name-long-name-long-name"
           tlfType="private"
           onClick={Storybook.action('onClick')}
           uploading={false}
@@ -161,8 +163,14 @@ const load = () => {
           path={Types.stringToPath(
             '/keybase/team/kbkbfstest/moo_c_windows_system32_drivers_etc_hosts_long_name_long_name_long_name_long_name_long_name_long_name_long_name_long_name_long_name_long_name_long_name_long_name'
           )}
-          targetExtension=""
-          targetNameWithoutExtension="moo_c_windows_system32_drivers_etc_hosts_long_name_long_name_long_name_long_name_long_name_long_name_long_name_long_name_long_name_long_name_long_name_long_name"
+          tlfType="private"
+          onClick={Storybook.action('onClick')}
+          uploading={false}
+        />
+        <FileUpdate
+          path={Types.stringToPath(
+            '/keybase/team/kbkbfstest/not-quite-so-long-really-not-quite-as-long-but-still-pretty-long-name.desktop.js'
+          )}
           tlfType="private"
           onClick={Storybook.action('onClick')}
           uploading={false}

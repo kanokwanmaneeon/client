@@ -26,7 +26,7 @@ let config = {
   reduxSagaLoggerMasked: true, // Print saga debug info masked out
   showDevTools: false, // Show devtools on start
   skipAppFocusActions: false, // dont emit actions when going foreground/background, helpful while working on other actions stuff
-  skipSecondaryDevtools: true, // Don't show devtools for menubar/trackers etc
+  skipSecondaryDevtools: false, // Don't show devtools for menubar/trackers etc
   userTimings: false, // Add user timings api to timeline in chrome
   virtualListMarks: false, // If true add constraints to items in virtual lists so we can tell when measuring is incorrect
 }

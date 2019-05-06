@@ -40,9 +40,7 @@ const DesktopHeaders = (props: Props) => (
         Move or Copy “
       </Kb.Text>
       <FsCommon.PathItemIcon size={16} path={Types.pathConcat(props.parentPath, props.targetName)} />
-      <Kb.Text type="Header" lineClamp={1} style={styles.header}>
-        {props.targetName}
-      </Kb.Text>
+      <FsCommon.FilenameText type="Header" filename={props.targetName} />
       <Kb.Text type="Header" style={{flexShrink: 0}}>
         ”
       </Kb.Text>
@@ -179,9 +177,6 @@ const styles = Styles.styleSheetCreate({
       bottom: 0,
       position: 'absolute',
     },
-  }),
-  header: Styles.platformStyles({
-    isElectron: {wordBreak: 'break-all'},
   }),
   mobileHeaderButton: {
     paddingBottom: 8,
